@@ -4,26 +4,22 @@ import './App.css';
 import * as BooksAPI from './BooksAPI';
 import ListBooks from './components/list-books/ListBooks';
 import SearchBooks from './components/search-books/SearchBooks';
-
-const CURRENTLY_READING = 'currentlyReading';
-const WANT_TO_READ = 'wantToRead';
-const READ = 'read';
-const NONE = 'none';
+import * as Constants from './constants';
 
 export default class BooksApp extends Component {
   state = {
     bookshelves: {
       currentlyReading: {
-        id: CURRENTLY_READING,
-        title: 'Currently Reading',
+        id: Constants.CURRENTLY_READING,
+        title: Constants.CURRENTLY_READING_NAME,
         books: []
       },
       wantToRead: {
-        id: WANT_TO_READ,
-        title: 'Want to Read',
+        id: Constants.WANT_TO_READ,
+        title: Constants.WANT_TO_READ_NAME,
         books: []
       },
-      read: { id: READ, title: 'Read', books: [] }
+      read: { id: Constants.READ, title: Constants.READ_NAME, books: [] }
     }
   };
 
@@ -50,23 +46,28 @@ export default class BooksApp extends Component {
     let bookshelf;
     const { bookshelves } = this.state;
     book.shelf &&
-      book.shelf !== NONE &&
+      book.shelf !== Constants.NONE &&
       (bookshelf = bookshelves[book.shelf].books.filter(b => b.id !== book.id));
 
     return bookshelf;
   };
 
   changeBookCategory = (book, newShelf) => {
-    this.setState(currentState => {
-      const { bookshelves } = currentState;
+    BooksAPI.update(book, newShelf).then(() => {
+      this.setState(currentState => {
+        const { bookshelves } = currentState;
 
-      const oldBookshelf = this.getBookshelfWithoutBook(book);
+        const oldBookshelf = this.getBookshelfWithoutBook(book);
 
-      oldBookshelf && (bookshelves[book.shelf].books = oldBookshelf);
-      newShelf !== NONE && bookshelves[newShelf].books.push(book);
-      book.shelf = newShelf;
+        //validation in case there is no bookshelf (none for example)
+        oldBookshelf && (bookshelves[book.shelf].books = oldBookshelf);
 
-      return currentState;
+        //if the new shelf isnt none then add the book
+        newShelf !== Constants.NONE && bookshelves[newShelf].books.push(book);
+        book.shelf = newShelf;
+
+        return currentState;
+      });
     });
   };
 
@@ -80,7 +81,7 @@ export default class BooksApp extends Component {
 
     const match = allBooks.filter(b => book.id === b.id);
 
-    return match.length !== 0 ? match[0].shelf : NONE;
+    return match.length !== 0 ? match[0].shelf : Constants.NONE;
   };
 
   componentDidMount() {

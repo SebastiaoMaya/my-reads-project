@@ -5,6 +5,9 @@ import BookshelfChanger from '../bookshelf-changer/BookshelfChanger';
 export default class Book extends Component {
   render() {
     const { book, onChangeBook, getBookCategory } = this.props;
+    const bookImageUrl = book.imageLinks
+      ? book.imageLinks.thumbnail
+      : '../../images/img_not_available.png';
     return (
       <li>
         <div className='book'>
@@ -14,7 +17,7 @@ export default class Book extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: `url(${book.imageLinks.thumbnail})`
+                backgroundImage: `url(${bookImageUrl})`
               }}
             />
             <BookshelfChanger
