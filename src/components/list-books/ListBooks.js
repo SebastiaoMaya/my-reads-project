@@ -5,10 +5,17 @@ import Bookshelf from '../bookshelf/Bookshelf';
 export default class ListBooks extends Component {
   renderBookshelves = bookshelves => {
     const allBookshelves = [];
+    const { onChangeBook, getBookCategory } = this.props;
+
     for (const key in bookshelves) {
       if (bookshelves.hasOwnProperty(key)) {
         allBookshelves.push(
-          <Bookshelf key={key} bookshelf={bookshelves[key]} />
+          <Bookshelf
+            key={key}
+            bookshelf={bookshelves[key]}
+            onChangeBook={onChangeBook}
+            getBookCategory={getBookCategory}
+          />
         );
       }
     }

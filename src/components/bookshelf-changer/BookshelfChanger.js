@@ -5,11 +5,15 @@ export default class BookshelfChanger extends Component {
     value: ''
   };
   handleShelfChange = e => {
-    this.setState({ value: e.target.value });
+    const { book, onChangeBook } = this.props;
+    const newShelf = e.target.value;
+    this.setState({ value: newShelf });
+
+    onChangeBook(book, newShelf);
   };
   componentDidMount() {
-    const { book } = this.props;
-    this.setState({ value: book.shelf });
+    const { book, getBookCategory } = this.props;
+    this.setState({ value: getBookCategory(book) });
   }
 
   render() {

@@ -44,6 +44,7 @@ export default class SearchBooks extends Component {
 
   render() {
     const { query, rawBooks } = this.state;
+    const { onChangeBook, getBookCategory } = this.props;
     return (
       <div className='search-books'>
         <div className='search-books-bar'>
@@ -64,7 +65,12 @@ export default class SearchBooks extends Component {
         <div className='search-books-results'>
           <ol className='books-grid'>
             {rawBooks.map(rawBook => (
-              <Book book={rawBook} key={rawBook.id} isRawBook={true} />
+              <Book
+                book={rawBook}
+                key={rawBook.id}
+                onChangeBook={onChangeBook}
+                getBookCategory={getBookCategory}
+              />
             ))}
           </ol>
         </div>
