@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../../BooksAPI';
+import * as Constants from '../../constants';
 import Book from '../book/Book';
-
-const WAIT_INTERVAL = 1000;
-const ENTER_KEY = 13;
-const MAX_RESULTS = 20;
 
 export default class SearchBooks extends Component {
   state = {
@@ -18,14 +15,14 @@ export default class SearchBooks extends Component {
   }
 
   handleKeyDown = e => {
-    if (e.keyCode === ENTER_KEY) {
+    if (e.keyCode === Constants.ENTER_KEY) {
       this.triggerChange();
     }
   };
 
   triggerChange = query => {
     if (query && query !== '') {
-      BooksAPI.search(query, MAX_RESULTS).then(result => {
+      BooksAPI.search(query, Constants.MAX_RESULTS).then(result => {
         if (!result.error) {
           this.setState({ rawBooks: result });
         }
@@ -39,7 +36,10 @@ export default class SearchBooks extends Component {
     clearTimeout(this.timer);
     const value = e.target.value;
     this.setState({ query: value });
-    this.timer = setTimeout(() => this.triggerChange(value), WAIT_INTERVAL);
+    this.timer = setTimeout(
+      () => this.triggerChange(value),
+      Constants.WAIT_INTERVAL
+    );
   };
 
   render() {
@@ -55,7 +55,7 @@ export default class SearchBooks extends Component {
           <div className='search-books-input-wrapper'>
             <input
               type='text'
-              placeholder='Search by title or author'
+              placeholder={Constants.SEARCH_PLACEHOLDER}
               value={query}
               onChange={this.handleQueryChange}
               onKeyDown={this.handleKeyDown}

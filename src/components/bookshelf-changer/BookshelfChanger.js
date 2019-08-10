@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as Constants from '../../constants';
 
 export default class BookshelfChanger extends Component {
   state = {
@@ -21,13 +22,17 @@ export default class BookshelfChanger extends Component {
     return (
       <div className='book-shelf-changer'>
         <select value={value} onChange={this.handleShelfChange}>
-          <option value='move' disabled>
-            Move to...
+          <option value={Constants.MOVE} disabled>
+            {Constants.MOVE_TO}
           </option>
-          <option value='currentlyReading'>Currently Reading</option>
-          <option value='wantToRead'>Want to Read</option>
-          <option value='read'>Read</option>
-          <option value='none'>None</option>
+          <option value={Constants.CURRENTLY_READING}>
+            {Constants.CURRENTLY_READING_NAME}
+          </option>
+          <option value={Constants.WANT_TO_READ}>
+            {Constants.WANT_TO_READ_NAME}
+          </option>
+          <option value={Constants.READ}>{Constants.READ_NAME}</option>
+          <option value={Constants.NONE}>{Constants.NONE_NAME}</option>
         </select>
       </div>
     );
