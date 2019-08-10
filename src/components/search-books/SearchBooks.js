@@ -1,3 +1,4 @@
+import escapeStringRegexp from 'escape-string-regexp';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../../BooksAPI';
@@ -22,11 +23,13 @@ export default class SearchBooks extends Component {
 
   triggerChange = query => {
     if (query && query !== '') {
-      BooksAPI.search(query, Constants.MAX_RESULTS).then(result => {
-        if (!result.error) {
-          this.setState({ rawBooks: result });
+      BooksAPI.search(escapeStringRegexp(query), Constants.MAX_RESULTS).then(
+        result => {
+          if (!result.error) {
+            this.setState({ rawBooks: result });
+          }
         }
-      });
+      );
     } else {
       this.setState({ rawBooks: [] });
     }
