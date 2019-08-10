@@ -1,8 +1,15 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Bookshelf from '../bookshelf/Bookshelf';
 
 export default class ListBooks extends Component {
+  static propTypes = {
+    bookshelves: PropTypes.object.isRequired,
+    onChangeBook: PropTypes.func.isRequired,
+    getBookCategory: PropTypes.func.isRequired
+  };
+
   renderBookshelves = bookshelves => {
     const allBookshelves = [];
     const { onChangeBook, getBookCategory } = this.props;

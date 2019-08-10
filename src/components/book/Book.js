@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import * as Constants from '../../constants';
 import Author from '../author/Author';
@@ -36,3 +37,9 @@ export default function Book(props) {
     </li>
   );
 }
+
+Book.propTypes = {
+  book: PropTypes.object.isRequired,
+  onChangeBook: PropTypes.func.isRequired,
+  getBookCategory: PropTypes.func.isRequired
+};

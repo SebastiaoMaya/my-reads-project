@@ -1,4 +1,5 @@
 import escapeStringRegexp from 'escape-string-regexp';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../../BooksAPI';
@@ -6,6 +7,11 @@ import * as Constants from '../../constants';
 import Book from '../book/Book';
 
 export default class SearchBooks extends Component {
+  static propTypes = {
+    onChangeBook: PropTypes.func.isRequired,
+    getBookCategory: PropTypes.func.isRequired
+  };
+
   state = {
     query: '',
     rawBooks: []

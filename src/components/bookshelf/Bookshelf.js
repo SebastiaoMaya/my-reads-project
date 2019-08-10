@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Book from '../book/Book';
 
@@ -22,3 +23,9 @@ export default function Bookshelf(props) {
     </div>
   );
 }
+
+Bookshelf.propTypes = {
+  bookshelf: PropTypes.object.isRequired,
+  onChangeBook: PropTypes.func.isRequired,
+  getBookCategory: PropTypes.func.isRequired
+};

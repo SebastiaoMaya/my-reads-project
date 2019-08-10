@@ -1,10 +1,18 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import * as Constants from '../../constants';
 
 export default class BookshelfChanger extends Component {
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    onChangeBook: PropTypes.func.isRequired,
+    getBookCategory: PropTypes.func.isRequired
+  };
+
   state = {
     value: ''
   };
+
   handleShelfChange = e => {
     const { book, onChangeBook } = this.props;
     const newShelf = e.target.value;
@@ -12,6 +20,7 @@ export default class BookshelfChanger extends Component {
 
     onChangeBook(book, newShelf);
   };
+
   componentDidMount() {
     const { book, getBookCategory } = this.props;
     this.setState({ value: getBookCategory(book) });
