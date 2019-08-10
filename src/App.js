@@ -42,29 +42,23 @@ export default class BooksApp extends Component {
     });
   };
 
-  getBookshelfWithoutBook = book => {
-    let bookshelf;
-    const { bookshelves } = this.state;
-    book.shelf &&
-      book.shelf !== Constants.NONE &&
-      (bookshelf = bookshelves[book.shelf].books.filter(b => b.id !== book.id));
-
-    return bookshelf;
-  };
-
   changeBookCategory = (book, newShelf) => {
     BooksAPI.update(book, newShelf).then(() => {
       this.setState(currentState => {
         const { bookshelves } = currentState;
+        const bookshelf = this.getBookCategory(book);
 
-        const oldBookshelf = this.getBookshelfWithoutBook(book);
+        const oldBookshelf =
+          bookshelf !== Constants.NONE
+            ? bookshelves[bookshelf].books.filter(b => b.id !== book.id)
+            : null;
 
         //validation in case there is no bookshelf (none for example)
-        oldBookshelf && (bookshelves[book.shelf].books = oldBookshelf);
+        oldBookshelf && (bookshelves[bookshelf].books = oldBookshelf);
 
         //if the new shelf isnt none then add the book
-        newShelf !== Constants.NONE && bookshelves[newShelf].books.push(book);
         book.shelf = newShelf;
+        newShelf !== Constants.NONE && bookshelves[newShelf].books.push(book);
 
         return currentState;
       });
