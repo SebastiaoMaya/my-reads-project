@@ -3,8 +3,14 @@ import Author from '../author/Author';
 import BookshelfChanger from '../bookshelf-changer/BookshelfChanger';
 
 export default class Book extends Component {
+  /* bookAction = ()=>{
+    const { book, isRawBook } = this.props;
+    
+    isRawBook ?
+  }  */
+
   render() {
-    const { book } = this.props;
+    const { book, isRawBook } = this.props;
 
     return (
       <li>
@@ -18,13 +24,14 @@ export default class Book extends Component {
                 backgroundImage: `url(${book.imageLinks.thumbnail})`
               }}
             />
-            <BookshelfChanger book={book} />
+            {!isRawBook && <BookshelfChanger book={book} />}
           </div>
           <div className='book-title'>{book.title}</div>
           <div id='authors'>
-            {book.authors.map(author => (
-              <Author author={author} key={author} />
-            ))}
+            {book.authors &&
+              book.authors.map(author => (
+                <Author author={author} key={author} />
+              ))}
           </div>
         </div>
       </li>

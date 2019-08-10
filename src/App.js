@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import './App.css';
 import * as BooksAPI from './BooksAPI';
-import AddBookToBookshelf from './components/add-book-to-bookshelf/AddBookToBookshelf';
 import ListBooks from './components/list-books/ListBooks';
+import AddsBookToBookshelf from './components/search-books/SearchBooks';
 
 export default class BooksApp extends Component {
   state = {
@@ -19,7 +19,8 @@ export default class BooksApp extends Component {
         books: []
       },
       read: { id: 'read', title: 'Read', books: [] }
-    }
+    },
+    addedBooks: []
   };
 
   initializeBookshelves = () => {
@@ -41,6 +42,10 @@ export default class BooksApp extends Component {
     });
   };
 
+  addBook = books => {
+    this.setState({ addedBooks: books });
+  };
+
   componentDidMount() {
     this.initializeBookshelves();
   }
@@ -54,7 +59,12 @@ export default class BooksApp extends Component {
           path='/'
           render={() => <ListBooks bookshelves={bookshelves} />}
         />
-        <Route path='/search' render={() => <AddBookToBookshelf />} />
+        <Route
+          path='/search'
+          render={() => (
+            <AddsBookToBookshelf onAddBook={books => this.addBook(books)} />
+          )}
+        />
       </div>
     );
   }
